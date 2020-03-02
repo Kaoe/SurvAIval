@@ -48,7 +48,7 @@ Mutations
     - Cautious
        - Determines whether or not to actually go after a piece of food or not. Possibly roll to look for predators around the food
  - How they are passed on:
-     -  
+     - Copied from parent
  - How they occur
      - Random chance on birth/creation
 
