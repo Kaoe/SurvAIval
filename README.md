@@ -48,13 +48,13 @@ Critter Abilities
  - Take Action
  - Eat food
  - Randomly decide on a course of action
+ - Randomly think about something(see possibleThoughts.txt)
  
- Possible critter actions
+ Possible current critter actions
  - Seeking food
  - Finding shelter
  - Finding a friend
  - Sleeping
  - Daydreaming
- - Thinking about x (see possibleThoughts.txt)
  - Taking a walk
  
