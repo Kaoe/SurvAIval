@@ -31,6 +31,6 @@ public class Tile {
     public String toString() {
         return "\nTile Info:\n" +
         	"Coords: " + Arrays.toString(coords) +
-                "\nPassable: " + passable;
+                "\nPassable: " + passable + "\n";
     }
 }
