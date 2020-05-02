@@ -29,8 +29,8 @@ public class Tile {
     // Displays basic info about a Tile
     @Override
     public String toString() {
-        return "Tile Info:\n" +
-        		"Coords: " + Arrays.toString(coords) +
+        return "\nTile Info:\n" +
+        	"Coords: " + Arrays.toString(coords) +
                 "\nPassable: " + passable;
     }
 }
