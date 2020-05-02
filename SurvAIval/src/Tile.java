@@ -22,9 +22,6 @@ public class Tile {
         this.coords = coords;
     }
 
-    // ???
-    Tile() { }
-
     // Override the default toString method
     // Displays basic info about a Tile
     @Override
