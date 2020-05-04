@@ -6,12 +6,14 @@ public class Critter {
 
     private int direction;
     private int moveSpeed;
-    private int[] coords;
+    private int x;
+    private int y;
 
-    public Critter(int direction, int moveSpeed, int[] coords) {
+    public Critter(int direction, int moveSpeed, int x, int y) {
         this.direction = direction;
         this.moveSpeed = moveSpeed;
-        this.coords = coords;
+        this.x = x;
+        this.y = y;
     }
 
     public int getDirection() {
@@ -30,7 +32,8 @@ public class Critter {
         this.moveSpeed = moveSpeed;
     }
 
-    public int[] getCoords() { return coords; }
+    public int getX() { return x; }
+    public int getY() { return y; }
 
     public void turnRight() {
         this.direction += 1;
@@ -46,13 +49,13 @@ public class Critter {
 
     public void moveForward() {
         if(direction == 0) {
-            this.coords[1] += 1;
+            this.y += 1;
         }else if(direction == 1) {
-            this.coords[0] +=1;
+            this.x +=1;
         }else if(direction == 2) {
-            this.coords[1] -= 1;
+            this.y-= 1;
         }else if(direction == 3) {
-            this.coords[0] -= 1;
+            this.x -= 1;
         }
         System.out.println("Moving forward...");
     }
