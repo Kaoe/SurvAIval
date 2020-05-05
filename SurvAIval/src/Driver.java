@@ -5,7 +5,7 @@ public class Driver {
     public static void main(String[] args) {
 
 
-        Critter critter = new  Critter(0,1,new int[] {0,0});
+        Critter critter = new  Critter(0,1,0,0);
 
         critter.doRandom(10);
         System.out.println(critter.toString());
