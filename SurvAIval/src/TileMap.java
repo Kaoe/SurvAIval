@@ -53,13 +53,12 @@ public class TileMap {
 
     // Loops through tiles array until a tile with the passed coords are found
     public Tile search(int x, int y) {
-        Tile tile = null;
         for(int i = 0; i < tiles.length; i++) {
             if(x == tiles[i].getX() && y == tiles[i].getY()) {
                 return tiles[i];
             }
         }
-        return null;
+        return null; // Call isValid() first if you want to avoid getting returned null
     }
 
     // Returns boolean value based on if the passed in coords are within the tileMap bounds
@@ -72,7 +71,11 @@ public class TileMap {
     }
 
     public boolean isPassable(int x, int y) {
-        return search(x,y).isPassable();
+        Tile tile = search(x,y);
+        if(tile != null && tile.isPassable()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
