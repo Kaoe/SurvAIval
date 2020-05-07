@@ -34,6 +34,6 @@ public class Tile {
     public String toString() {
         return "\nTile Info:" +
                 "\nCoordinates: (" + x +", " + y + ")" +
-                "\nPassable:" + passable;
+                "\nPassable:" + passable + "\n";
     }
 }
