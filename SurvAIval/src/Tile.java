@@ -32,10 +32,8 @@ public class Tile {
 
     @Override
     public String toString() {
-        return "Tile{" +
-                "x=" + x +
-                ", y=" + y +
-                ", passable=" + passable +
-                '}';
+        return "\nTile Info:" +
+                "\nCoordinates: (" + x +", " + y + ")" +
+                "\nPassable:" + passable;
     }
 }
