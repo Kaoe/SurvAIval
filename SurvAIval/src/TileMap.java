@@ -77,8 +77,7 @@ public class TileMap {
 
     @Override
     public String toString() {
-        return "Map{" +
-                "tiles=" + Arrays.toString(tiles) +
-                '}';
+        return "\nMap Info:" +
+                "\nTiles: " + Arrays.toString(tiles);
     }
 }
