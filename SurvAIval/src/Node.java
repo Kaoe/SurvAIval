@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-//  Possibly a placeholder for creating the pathfinding
+import static java.lang.StrictMath.*;
 
 public class Node {
 
@@ -9,67 +9,125 @@ public class Node {
     private int hCost;   // distance from end
     private int fCost;   // sum of g and h
     private Node parent;
-    private int[] coords;
-    private int[] dest;
-    private boolean passable;
+    private int xCoord;
+    private int yCoord;
+    private int xDest;
+    private int yDest;
 
-    public int getgCost() { return gCost; }
+    public Node(int xCoord, int yCoord, int xDest, int yDest) {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.xDest = xDest;
+        this.yDest = yDest;
+    }
 
-    public int gethCost() { return hCost; }
-
-    public int getfCost() { return fCost; }
-
-    public Node(Node parent, int[] coords, int[] dest) {
+    public Node(Node parent, int xCoord, int yCoord, int xDest, int yDest) {
         this.parent = parent;
-        this.coords = coords;
-        this.dest = dest;
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.xDest = xDest;
+        this.yDest = yDest;
     }
 
-    Node(int[] coords, int[] dest) {
-        this.coords = coords;
-        this.dest = dest;
+    static int calculateHCost(Node node) {
+        return abs(node.xCoord-node.xDest) + abs(node.yCoord-node.yDest);
     }
 
-    Node(int[] coords) {
-        this.coords = coords;
+    boolean isValid(TileMap tileMap) {
+        return tileMap.isValid(this.xCoord, this.yCoord);
     }
 
-    Node() { }
+    private boolean isPassable(TileMap tileMap) {
+        return tileMap.isPassable(this.xCoord, this.yCoord);
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "gCost=" + gCost +
+                ", hCost=" + hCost +
+                ", fCost=" + fCost +
+                ", parent=" + parent +
+                ", xCoord=" + xCoord +
+                ", yCoord=" + yCoord +
+                ", xDest=" + xDest +
+                ", yDest=" + yDest +
+                '}';
+    }
+
+    public static void pathfind(TileMap tileMap, int xCoord, int yCoord,int xDest, int yDest) {
+
+        Node startingPoint = new Node(xCoord,yCoord,xDest,yDest);
+
+        // open is a list of nodes being checked
+        // closed is a list of nodes that have already been checked
+        List<Node> open = new ArrayList<>();
+        List<Node> closed = new ArrayList<>();
+
+        Node current = startingPoint;
+        current.hCost = calculateHCost(current);
+        current.fCost = current.hCost;
+        open.add(current);
+
+        while(!open.isEmpty()) {
+
+            //  Finding node with the lowest fCost
+            for (Node node : open) {
+                if (node.fCost < current.fCost) {
+                    current = node;
+                } else if (node.fCost == current.fCost && node.hCost < current.hCost) {
+                    current = node;
+                }
+            }
+            open.remove(current);
+            closed.add(current);
+
+            //  If destination is found...
+            if(current.xCoord == current.xDest && current.yCoord == current.yDest) {
+
+                System.out.println(current);
+                System.out.println(open);
+                System.out.println(closed);
+                System.out.println("ay we did it");
+
+                return; // This would be end of search, TODO: add what happens here.
+            }
+
+            //  Generating new nodes
+            List<Node> newNodes = new ArrayList<Node>();
+            newNodes.add(new Node(current, current.xCoord + 1, current.yCoord, current.xDest, current.yDest));
+            newNodes.add(new Node(current, current.xCoord - 1, current.yCoord, current.xDest, current.yDest));
+            newNodes.add(new Node(current, current.xCoord, current.yCoord + 1, current.xDest, current.yDest));
+            newNodes.add(new Node(current, current.xCoord, current.yCoord - 1, current.xDest, current.yDest));
 
 
-    // Currently used for testing pathfinding
-    public static void main(String[] args) {
-
-        TileMap tileMap = new TileMap(3,4);
-
-        Node startingPoint = new Node(new int[]{0, 0},new int[]{0,0});
-
-        List<Node> open = new ArrayList<Node>();
-        List<Node> closed = new ArrayList<Node>();
-        open.add(startingPoint);
-
-        while(!open.isEmpty()) {  // WIP
-            Node q = new Node();
-
-            for(int i = 0; i < open.size(); i++) {
-                if(open.get(i).getfCost() < q.getfCost()) {
-                    q = open.get(i);
+            //  Removing nodes that are out of bounds (invalid), not passable, or are in the closed list
+            for(int i = 0; i < newNodes.size(); i++) {
+                if (closed.contains(newNodes.get(i)) || !newNodes.get(i).isValid(tileMap) || !newNodes.get(i).isPassable(tileMap)) {
+                    newNodes.remove(newNodes.get(i));
+                    i--;
                 }
             }
 
-            new Node(q, new int[]{q.coords[0] + 1, q.coords[1]}, q.dest);
-            new Node(q, new int[]{q.coords[0] - 1, q.coords[1]}, q.dest);
-            new Node(q, new int[]{q.coords[0], q.coords[1] + 1}, q.dest);
-            new Node(q, new int[]{q.coords[0], q.coords[1] - 1}, q.dest);
+            //  Checking remaining nodes
+            for (Node newNode : newNodes) {
 
+                //  Calculating costs
+                int gNew = current.gCost + 1;
+                int hNew = calculateHCost(newNode);
+                int fNew = gNew + hNew;
 
-
-
-
+                //  If new node is not in open or if new node is more efficient than current node...
+                if (!open.contains(newNode) || fNew < current.fCost) {  // Add check to see if current f-value is better than previous f-value
+                    newNode.gCost = gNew;
+                    newNode.hCost = hNew;
+                    newNode.fCost = fNew;
+                    newNode.parent = current;
+                    if (!open.contains(newNode)) {
+                        open.add(newNode);
+                    }
+                }
+            }
         }
-
-
     }
-
-
 }
