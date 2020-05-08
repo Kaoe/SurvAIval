@@ -7,17 +7,24 @@ public class Driver {
 
 
 
-        TileMap tileMap = new TileMap(10,15, 0.5);
-        Tile tile = null;
+        TileMap tileMap = new TileMap(50,50);
 
-        tile = tileMap.search(7,12);
+        Node.pathfind(tileMap,0,0,49,49);
 
-        System.out.println(tile.toString());
 
-        tile.isPassable();
 
-        System.out.println(tileMap.isValid(9,4));
-        System.out.println(tileMap.isPassable(9,4));
+
+
+//        Tile tile = null;
+//
+//        tile = tileMap.search(7,12);
+//
+//        System.out.println(tile.toString());
+//
+//        tile.isPassable();
+//
+//        System.out.println(tileMap.isValid(9,4));
+//        System.out.println(tileMap.isPassable(9,4));
 
 
 

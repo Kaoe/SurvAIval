@@ -8,13 +8,25 @@ public class Tile {
 	// The location of a tile on the tileMap
     private int x;
     private int y;
+    private String type;
 
     // Indicates whether a tile can be walked through or not
     private boolean passable;
 
-    public Tile(int x, int y) {
+    public Tile(int x, int y, String type) {
         this.x = x;
         this.y = y;
+        this.type = type;
+        switch (type) {
+            case "dirt":
+            case "tree":
+                this.passable = true;
+                break;
+            case "boulder":
+            case "water":
+                this.passable = false;
+                break;
+        }
     }
 
     public Tile(int x, int y, boolean passable) {

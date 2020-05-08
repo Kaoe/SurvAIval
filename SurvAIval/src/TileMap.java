@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -6,40 +7,46 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TileMap {
 
     private Tile[] tiles;
-    private double passableChance;
 
-    // If no passableChance value is passed, then it will be set to -1, ensuring all
+    // If no passableChance value is passed, then it will be set to 1, ensuring all
     // tiles are passable
     TileMap(int width, int height) {
-        this(width, height, -1);
+        this(width, height, 1, 0, 0, 0);
     }
 
     /**
-     * passableChance should be a double between 0.0 and 1.0. This is the chance that
-     * any given tile is considered passable. This can later be used to for either tile
-     * types as well.
+     * Each tile type weight is the chance of that tile being generated compared to the sum of
+     * all of the weights. If you don't want to worry about this, call the above constructor.
      *
      * @param width
      * @param height
-     * @param passableChance
+     * @param dirtWeight
+     * @param boulderWeight
+     * @param waterWeight
+     * @param treeWeight
      */
-    TileMap(int width, int height, double passableChance) {
+    TileMap(int width, int height, double dirtWeight, double boulderWeight, double waterWeight, double treeWeight) {
 
         Tile[] tiles = new Tile[width * height];
-        this.passableChance = passableChance;
-        boolean passable;
+        double totalWeight = dirtWeight + boulderWeight + waterWeight + treeWeight;
+
+        String type = "";
         double rand;
         int index = 0;
 
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
-                rand = Math.random();
-                if(rand <= this.passableChance) {
-                    passable = true;
-                }else {
-                    passable = false;
+                rand = Math.random() * totalWeight;
+                if(rand <= dirtWeight) {
+                    type = "dirt";
+                }else if(rand <= dirtWeight + boulderWeight && rand >= dirtWeight) {
+                    type = "boulder";
+                }else if(rand <= dirtWeight + boulderWeight + waterWeight && rand >= dirtWeight + boulderWeight) {
+                    type = "water";
+                }else if(rand <= dirtWeight + boulderWeight + waterWeight + treeWeight && rand >= dirtWeight + boulderWeight + waterWeight) {
+                    type = "tree";
                 }
-                tiles[index] = new Tile(i,j,passable);
+                tiles[index] = new Tile(i,j,type);
                 index++;
             }
         }
@@ -53,9 +60,9 @@ public class TileMap {
 
     // Loops through tiles array until a tile with the passed coords are found
     public Tile search(int x, int y) {
-        for(int i = 0; i < tiles.length; i++) {
-            if(x == tiles[i].getX() && y == tiles[i].getY()) {
-                return tiles[i];
+        for (Tile tile : tiles) {
+            if (x == tile.getX() && y == tile.getY()) {
+                return tile;
             }
         }
         return null; // Call isValid() first if you want to avoid getting returned null
@@ -64,18 +71,13 @@ public class TileMap {
     // Returns boolean value based on if the passed in coords are within the tileMap bounds
     public boolean isValid(int x, int y) {
         Tile tile = search(x,y);
-        if(tile != null) {
-            return true;
-        }
-        return false;
+        return tile != null;
     }
 
+    // Returns boolean value based on if the passed in coords are passable
     public boolean isPassable(int x, int y) {
         Tile tile = search(x,y);
-        if(tile != null && tile.isPassable()) {
-            return true;
-        }
-        return false;
+        return tile != null && tile.isPassable();
     }
 
     @Override
