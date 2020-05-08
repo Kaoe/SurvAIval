@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.StrictMath.*;
@@ -55,7 +56,11 @@ public class Node {
                 '}';
     }
 
-    public static void pathfind(TileMap tileMap, int xCoord, int yCoord,int xDest, int yDest) {
+    public static List pathfind(TileMap tileMap, int xCoord, int yCoord, int xDest, int yDest) {
+
+        if (!tileMap.isPassable(xDest, yDest)) {
+            return null;
+        }
 
         Node startingPoint = new Node(xCoord,yCoord,xDest,yDest);
 
@@ -85,21 +90,32 @@ public class Node {
             //  If destination is found...
             if(current.xCoord == current.xDest && current.yCoord == current.yDest) {
 
-                System.out.println(current);
-                System.out.println(open);
-                System.out.println(closed);
-                System.out.println("ay we did it");
-
-                return; // This would be end of search, TODO: add what happens here.
+                //  Creating a list of directions to take from starting point
+                Node node = current;
+                int i = 0;
+                List directions = new ArrayList();
+                while(node.parent != null) {
+                    if (node.parent.yCoord < node.yCoord) {
+                        directions.add(0);
+                    }else if (node.parent.xCoord < node.xCoord) {
+                        directions.add(1);
+                    }else if (node.parent.yCoord > node.yCoord) {
+                        directions.add(2);
+                    }else if (node.parent.xCoord > node.xCoord) {
+                        directions.add(3);
+                    }
+                    node = node.parent;
+                }
+                Collections.reverse(directions);
+                return directions;
             }
 
             //  Generating new nodes
-            List<Node> newNodes = new ArrayList<Node>();
+            List<Node> newNodes = new ArrayList<>();
             newNodes.add(new Node(current, current.xCoord + 1, current.yCoord, current.xDest, current.yDest));
             newNodes.add(new Node(current, current.xCoord - 1, current.yCoord, current.xDest, current.yDest));
             newNodes.add(new Node(current, current.xCoord, current.yCoord + 1, current.xDest, current.yDest));
             newNodes.add(new Node(current, current.xCoord, current.yCoord - 1, current.xDest, current.yDest));
-
 
             //  Removing nodes that are out of bounds (invalid), not passable, or are in the closed list
             for(int i = 0; i < newNodes.size(); i++) {
@@ -129,5 +145,6 @@ public class Node {
                 }
             }
         }
+        return null;
     }
 }

@@ -4,12 +4,20 @@ import java.util.List;
 public class Driver {
     public static void main(String[] args) {
 
-
-
-
         TileMap tileMap = new TileMap(50,50);
 
-        Node.pathfind(tileMap,0,0,49,49);
+        Critter critter = new Critter(tileMap,0,1,0,0);
+
+        System.out.println(critter.toString());
+
+        critter.pathfind(49,49);
+
+        System.out.println(critter.toString());
+
+        critter.completePath();
+
+        System.out.println(critter.toString());
+
 
 
 

@@ -1,15 +1,19 @@
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 //import static java.lang.Math.abs;
 
 public class Critter {
 
+    private TileMap tileMap;
     private int direction;
     private int moveSpeed;
     private int x;
     private int y;
+    private List currentPath;// This is the path that the critter is currently taking. It is a list of directions
 
-    public Critter(int direction, int moveSpeed, int x, int y) {
+    public Critter(TileMap tileMap, int direction, int moveSpeed, int x, int y) {
+        this.tileMap = tileMap;
         this.direction = direction;
         this.moveSpeed = moveSpeed;
         this.x = x;
@@ -38,13 +42,11 @@ public class Critter {
     public void turnRight() {
         this.direction += 1;
         this.direction %= 4;
-        System.out.println("Turning right...");
     }
 
     public void turnLeft() {
         this.direction += 3;
         this.direction %= 4;
-        System.out.println("Turning left...");
     }
 
     public void moveForward() {
@@ -57,7 +59,40 @@ public class Critter {
         }else if(direction == 3) {
             this.x -= 1;
         }
-        System.out.println("Moving forward...");
+    }
+
+    public void pathfind(int xDest, int yDest) {
+        currentPath = Node.pathfind(this.tileMap,this.x,this.y,xDest,yDest);
+    }
+
+    //  Takes one action to move along the path
+    public void moveAlongPath() {
+        if (currentPath.isEmpty()) {
+//          doNext();                      This means that the action is complete, time to move onto the next task
+        }else if (this.direction == ((int) currentPath.get(0) + 1) % 4) {
+            turnLeft();
+        }else if (this.direction == ((int) currentPath.get(0) + 3) % 4) {
+            turnRight();
+        }else if (this.direction == (int) currentPath.get(0)) {
+            moveForward();
+            currentPath.remove(0);
+        }else {
+            turnLeft();
+        }
+    }
+
+    //  Moves along the path a certain amount of times
+    public void moveAlongPath(int count) {
+        for (int i = 0; i < count; i++) {
+            moveAlongPath();
+        }
+    }
+
+    //  Moves along the whole path
+    public void completePath() {
+        while (!currentPath.isEmpty()) {
+            moveAlongPath();
+        }
     }
 
     public void doRandom() {
@@ -103,22 +138,12 @@ public class Critter {
         }
     }
 
-//    public void pathfind(int x, int y, TileMap tileMap) {
-////        int optimalPath = abs(x - this.x) + abs(y - this.y);
-//        int a = this.coords[0];
-//        int b = this.coords[1];
-//
-//        while(a != x && b != y) {
-//            if((a < x) && tileMap.search(x + 1,y).isPassable()) {   // if tile (a + 1, b) is passable
-//                a++;
-//            }else if(tileMap.search(x,y + 1).isPassable()) {   // if tile (a, b + 1) is passable
-//                b++;
-//            }
-//
-//        }
-//
-//    }
-
-
-
+    @Override
+    public String toString() {
+        return "\nCritter Info:" +
+                "\nCoordinates: (" + x +", " + y + ")" +
+                "\nDirection:" + direction +
+                "\nMoveSpeed:" + moveSpeed +
+                "\nCurrentPath: " + currentPath;
+    }
 }
