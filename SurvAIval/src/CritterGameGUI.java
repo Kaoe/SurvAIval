@@ -1,7 +1,11 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class CritterGameGUI extends JFrame {
 
@@ -14,7 +18,7 @@ public class CritterGameGUI extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    CritterGameGUI frame = new CritterGameGUI(10,10);
+                    CritterGameGUI frame = new CritterGameGUI();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -26,7 +30,7 @@ public class CritterGameGUI extends JFrame {
     /**
      * Create the frame.
      */
-    public CritterGameGUI(int width, int height) {
+    public CritterGameGUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1005, 625);
         contentPane = new JPanel();
@@ -89,10 +93,10 @@ public class CritterGameGUI extends JFrame {
         JLabel treeWeightLabel = new JLabel("Tree Weight:");
         panelTreeWeight.add(treeWeightLabel);
 
-        JSlider treeSlider = new JSlider(0,1);
+        JSlider treeSlider = new JSlider(0,100,25);
         panelTreeWeight.add(treeSlider);
 
-        JLabel treeWeight = new JLabel(String.valueOf(treeSlider.getValue()));
+        JLabel treeWeight = new JLabel(String.valueOf((double)treeSlider.getValue()/100));
         panelTreeWeight.add(treeWeight);
         treeWeight.setHorizontalAlignment(JLabel.LEFT);
 
@@ -103,10 +107,10 @@ public class CritterGameGUI extends JFrame {
         JLabel waterWeightLabel = new JLabel("Water Weight:");
         panelWaterWeight.add(waterWeightLabel);
 
-        JSlider waterSlider = new JSlider(0,1);
+        JSlider waterSlider = new JSlider(0,100,25);
         panelWaterWeight.add(waterSlider);
 
-        JLabel waterWeight = new JLabel(String.valueOf(waterSlider.getValue()));
+        JLabel waterWeight = new JLabel(String.valueOf(String.valueOf((double)waterSlider.getValue()/100)));
         panelWaterWeight.add(waterWeight);
         waterWeight.setHorizontalAlignment(JLabel.LEFT);
 
@@ -117,24 +121,24 @@ public class CritterGameGUI extends JFrame {
         JLabel boulderWeightLabel = new JLabel("Boulder Weight:");
         panelBoulderWeight.add(boulderWeightLabel);
 
-        JSlider boulderSlider = new JSlider(0,1);
+        JSlider boulderSlider = new JSlider(0,100,25);
         panelBoulderWeight.add(boulderSlider);
 
-        JLabel boulderWeight = new JLabel(String.valueOf(boulderSlider.getValue()));
+        JLabel boulderWeight = new JLabel(String.valueOf(String.valueOf((double)boulderSlider.getValue()/100)));
         panelBoulderWeight.add(boulderWeight);
         boulderWeight.setHorizontalAlignment(JLabel.LEFT);
 
         JPanel panelDirtWeight = new JPanel();
-        optionsPanel.add(panelTreeWeight);
+        optionsPanel.add(panelDirtWeight);
         panelDirtWeight.setLayout(new GridLayout(1,3));
 
         JLabel dirtWeightLabel = new JLabel("Dirt Weight:");
         panelDirtWeight.add(dirtWeightLabel);
 
-        JSlider dirtSlider = new JSlider(0,1);
+        JSlider dirtSlider = new JSlider(0,100, 50);
         panelDirtWeight.add(dirtSlider);
 
-        JLabel dirtWeight = new JLabel(String.valueOf(dirtSlider.getValue()));
+        JLabel dirtWeight = new JLabel(String.valueOf(String.valueOf((double)dirtSlider.getValue()/100)));
         panelDirtWeight.add(dirtWeight);
         dirtWeight.setHorizontalAlignment(JLabel.LEFT);
 
@@ -145,7 +149,7 @@ public class CritterGameGUI extends JFrame {
         JLabel mapSizeLabel = new JLabel("Map Size:");
         panelMapSize.add(mapSizeLabel);
 
-        JSlider mapSizeSlider = new JSlider(10,100);
+        JSlider mapSizeSlider = new JSlider(10,50,10);
         panelMapSize.add(mapSizeSlider);
 
         JLabel mapSize = new JLabel(String.valueOf(mapSizeSlider.getValue()) + "x" + String.valueOf(mapSizeSlider.getValue()));
@@ -188,8 +192,10 @@ public class CritterGameGUI extends JFrame {
         JPanel mapPanel = new JPanel();
         mapPanel.setBounds(205, 0, 800, 600);
         mainPanel.add(mapPanel);
-        mapPanel.setLayout(new GridLayout(width, height, 0, 0));
 
+        mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
+        TileMap tileMap = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),1,0,0,0);
+        mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
 
         ImageIcon dirt = new ImageIcon("SurvAIval/Assets/dirt.png");
         ImageIcon boulder = new ImageIcon("SurvAIval/Assets/boulder.png");
@@ -197,31 +203,123 @@ public class CritterGameGUI extends JFrame {
         ImageIcon water = new ImageIcon("SurvAIval/Assets/water.png");
         ImageIcon critter = new ImageIcon("SurvAIval/Assets/critter.png");
         ImageIcon food = new ImageIcon("SurvAIval/Assets/food.png");
+        ImageIcon white = new ImageIcon("SurvAIval/Assets/white.png");
 
-
-        TileMap tileMap = new TileMap(width,height,5,1,1,1);
-
-        int size = width * height;
-        int index = -1;
-
-        for(int i = 0; i < size; i++) {
-            index += height;
-            if(index > size) {
-                index %= size;
-                index--;
-            }
-            if (tileMap.getTile(i).getType() == "dirt") {
-                mapPanel.add(new JLabel(dirt));
-            }else if (tileMap.getTile(i).getType() == "boulder") {
-                mapPanel.add(new JLabel(boulder));
-            }else if (tileMap.getTile(i).getType() == "tree") {
-                mapPanel.add(new JLabel(tree));
-            }else if (tileMap.getTile(i).getType() == "water") {
-                mapPanel.add(new JLabel(water));
-            }
+        for(int i = 0; i < tileMap.getSize(); i++) {
+            mapPanel.add(new JLabel(white));
         }
 
 
+        runsSimulationButton.addActionListener(new ActionListener() {		//ACTION LISTENERS
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //  TODO: add what happens when a simulation is ran.
+            }
+        });
+
+        generateMapButton.addActionListener(new ActionListener() {		//ACTION LISTENERS
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mapPanel.removeAll();
+                TileMap tileMap = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),dirtSlider.getValue(),
+                                                boulderSlider.getValue(),waterSlider.getValue(),treeSlider.getValue());
+                int size = mapSizeSlider.getValue() * mapSizeSlider.getValue();
+                int index = -1;
+
+                for(int i = 0; i < size; i++) {
+                    index += mapSizeSlider.getValue();  //  Increment by height of the map
+                    if(index > size) {
+                        index %= size;
+                        index--;
+                    }
+                    if (tileMap.getTile(i).getType() == "dirt") {
+                        mapPanel.add(new JLabel(dirt));
+                    }else if (tileMap.getTile(i).getType() == "boulder") {
+                        mapPanel.add(new JLabel(boulder));
+                    }else if (tileMap.getTile(i).getType() == "tree") {
+                        mapPanel.add(new JLabel(tree));
+                    }else if (tileMap.getTile(i).getType() == "water") {
+                        mapPanel.add(new JLabel(water));
+                    }
+                }
+
+                mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
+                mapPanel.repaint();
+            }
+        });
+
+        critterSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateSlider(critterSlider,critterCount);
+            }
+        });
+
+        foodSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateSlider(foodSlider,foodCount);
+            }
+        });
+
+        treeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateSliderDouble(treeSlider,treeWeight);
+            }
+        });
+
+        waterSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateSliderDouble(waterSlider,waterWeight);
+            }
+        });
+
+        boulderSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateSliderDouble(boulderSlider,boulderWeight);
+            }
+        });
+
+        dirtSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateSliderDouble(dirtSlider,dirtWeight);
+            }
+        });
+
+        mapSizeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                mapSize.setText(String.valueOf(mapSizeSlider.getValue()) + "x" + String.valueOf(mapSizeSlider.getValue()));
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+    public static void updateSliderDouble(JSlider jSlider, JLabel jLabel) {
+        jLabel.setText(String.valueOf((double)jSlider.getValue()/100));
+    }
+
+    public static void updateSlider(JSlider jSlider, JLabel jLabel) {
+        jLabel.setText(String.valueOf(jSlider.getValue()));
+    }
+
 
 }
