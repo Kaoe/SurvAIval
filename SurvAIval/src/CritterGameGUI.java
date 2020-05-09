@@ -42,28 +42,108 @@ public class CritterGameGUI extends JFrame {
         optionsPanel.setBounds(0, 0, 200, 600);
         mainPanel.add(optionsPanel);
 
-        optionsPanel.setLayout(new GridLayout(10,1));
+        optionsPanel.setLayout(new GridLayout(13,1));
 
-        JButton btnNewButton = new JButton("New button");
-        optionsPanel.add(btnNewButton);
+        JButton runsSimulationButton = new JButton("Run Simulation");
+        JPanel runsSimulationPanel = new JPanel();
+        runsSimulationPanel.add(runsSimulationButton);
+        optionsPanel.add(runsSimulationPanel);
 
-        JButton btnNewButton_1 = new JButton("New button");
-        optionsPanel.add(btnNewButton_1);
+        JPanel panelCritterCount = new JPanel();
+        optionsPanel.add(panelCritterCount);
+        panelCritterCount.setLayout(new GridLayout(1,2));
 
-        JSlider slider = new JSlider();
-        optionsPanel.add(slider);
+        JLabel critterCountLabel = new JLabel("Critter Count:");
+        panelCritterCount.add(critterCountLabel);
 
-        JSlider slider_1 = new JSlider();
-        optionsPanel.add(slider_1);
+        JSlider critterSlider = new JSlider(0,20);
+        panelCritterCount.add(critterSlider);
 
-        JSlider slider_2 = new JSlider();
-        optionsPanel.add(slider_2);
+        JLabel weightsLabel = new JLabel("Weights");
+        weightsLabel.setHorizontalAlignment(JLabel.CENTER);
+        weightsLabel.setVerticalAlignment(JLabel.CENTER);
+        optionsPanel.add(weightsLabel);
 
-        JSlider slider_3 = new JSlider();
-        optionsPanel.add(slider_3);
+        JPanel panelTreeWeight = new JPanel();
+        optionsPanel.add(panelTreeWeight);
+        panelTreeWeight.setLayout(new GridLayout(1,2));
 
-        JSlider slider_4 = new JSlider();
-        optionsPanel.add(slider_4);
+        JLabel treeWeightLabel = new JLabel("Tree Weight:");
+        panelTreeWeight.add(treeWeightLabel);
+
+        JSlider treeSlider = new JSlider(0,1);
+        panelTreeWeight.add(treeSlider);
+
+        JPanel panelWaterWeight = new JPanel();
+        optionsPanel.add(panelWaterWeight);
+        panelWaterWeight.setLayout(new GridLayout(1,2));
+
+        JLabel waterWeightLabel = new JLabel("Water Weight:");
+        panelWaterWeight.add(waterWeightLabel);
+
+        JSlider waterSlider = new JSlider(0,1);
+        panelWaterWeight.add(waterSlider);
+
+        JPanel panelBoulderWeight = new JPanel();
+        optionsPanel.add(panelBoulderWeight);
+        panelBoulderWeight.setLayout(new GridLayout(1,2));
+
+        JLabel boulderWeightLabel = new JLabel("Boulder Weight:");
+        panelBoulderWeight.add(boulderWeightLabel);
+
+        JSlider boulderSlider = new JSlider(0,1);
+        panelBoulderWeight.add(boulderSlider);
+
+        JPanel panelDirtWeight = new JPanel();
+        optionsPanel.add(panelTreeWeight);
+        panelDirtWeight.setLayout(new GridLayout(1,2));
+
+        JLabel dirtWeightLabel = new JLabel("Dirt Weight:");
+        panelDirtWeight.add(dirtWeightLabel);
+
+        JSlider dirtSlider = new JSlider(0,1);
+        panelDirtWeight.add(dirtSlider);
+
+        JPanel panelMapSize = new JPanel();
+        optionsPanel.add(panelMapSize);
+        panelMapSize.setLayout(new GridLayout(1,2));
+
+        JLabel mapSizeLabel = new JLabel("Map Size:");
+        panelMapSize.add(mapSizeLabel);
+
+        JSlider mapSizeSlider = new JSlider(10,100);
+        panelMapSize.add(mapSizeSlider);
+
+        JButton generateMapButton = new JButton("Generate Map");
+        JPanel generateMapPanel = new JPanel();
+        generateMapPanel.add(generateMapButton);
+        optionsPanel.add(generateMapPanel);
+
+        JPanel panelLoadPreset = new JPanel();
+        optionsPanel.add(panelLoadPreset);
+        panelLoadPreset.setLayout(new GridLayout(1,2));
+
+        JButton loadPresetButton = new JButton("Load Preset");
+        JPanel presetButtonPanel = new JPanel();
+        presetButtonPanel.add(loadPresetButton);
+        panelLoadPreset.add(presetButtonPanel);
+
+        JComboBox presetComboBox = new JComboBox();
+        panelLoadPreset.add(presetComboBox);
+
+        JButton savePresetButton = new JButton("Save Preset");
+        JPanel savePresetPanel = new JPanel();
+        savePresetPanel.add(savePresetButton);
+        optionsPanel.add(savePresetPanel);
+
+        JPanel currentPresetPanel = new JPanel();
+        optionsPanel.add(currentPresetPanel);
+
+        JLabel currentPresetLabel = new JLabel("Current Preset:");
+        currentPresetPanel.add(currentPresetLabel);
+
+        JTextField currentPresetName = new JTextField("placeHolder");
+        currentPresetPanel.add(currentPresetName);
 
         JPanel mapPanel = new JPanel();
         mapPanel.setBounds(205, 0, 800, 600);
