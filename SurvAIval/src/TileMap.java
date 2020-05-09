@@ -60,6 +60,8 @@ public class TileMap {
         return tiles[i];
     }
 
+    public int getSize() { return tiles.length; }
+
     // Loops through tiles array until a tile with the passed coords are found
     public Tile search(int x, int y) {
         for (Tile tile : tiles) {
