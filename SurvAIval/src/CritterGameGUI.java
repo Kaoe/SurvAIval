@@ -59,6 +59,16 @@ public class CritterGameGUI extends JFrame {
         JSlider critterSlider = new JSlider(0,20);
         panelCritterCount.add(critterSlider);
 
+        JPanel panelFoodCount = new JPanel();
+        optionsPanel.add(panelFoodCount);
+        panelFoodCount.setLayout(new GridLayout(1,2));
+
+        JLabel foodCountLabel = new JLabel("Food Count:");
+        panelFoodCount.add(foodCountLabel);
+
+        JSlider foodSlider = new JSlider(0,20);
+        panelFoodCount.add(foodSlider);
+
         JLabel weightsLabel = new JLabel("Weights");
         weightsLabel.setHorizontalAlignment(JLabel.CENTER);
         weightsLabel.setVerticalAlignment(JLabel.CENTER);
