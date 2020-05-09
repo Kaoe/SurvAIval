@@ -51,23 +51,31 @@ public class CritterGameGUI extends JFrame {
 
         JPanel panelCritterCount = new JPanel();
         optionsPanel.add(panelCritterCount);
-        panelCritterCount.setLayout(new GridLayout(1,2));
+        panelCritterCount.setLayout(new GridLayout(1,3));
 
         JLabel critterCountLabel = new JLabel("Critter Count:");
         panelCritterCount.add(critterCountLabel);
 
-        JSlider critterSlider = new JSlider(0,20);
+        JSlider critterSlider = new JSlider(0,20,5);
         panelCritterCount.add(critterSlider);
+
+        JLabel critterCount = new JLabel(String.valueOf(critterSlider.getValue()));
+        panelCritterCount.add(critterCount);
+        critterCount.setHorizontalAlignment(JLabel.LEFT);
 
         JPanel panelFoodCount = new JPanel();
         optionsPanel.add(panelFoodCount);
-        panelFoodCount.setLayout(new GridLayout(1,2));
+        panelFoodCount.setLayout(new GridLayout(1,3));
 
         JLabel foodCountLabel = new JLabel("Food Count:");
         panelFoodCount.add(foodCountLabel);
 
         JSlider foodSlider = new JSlider(0,20);
         panelFoodCount.add(foodSlider);
+
+        JLabel foodCount = new JLabel(String.valueOf(foodSlider.getValue()));
+        panelFoodCount.add(foodCount);
+        foodCount.setHorizontalAlignment(JLabel.LEFT);
 
         JLabel weightsLabel = new JLabel("Weights");
         weightsLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -76,7 +84,7 @@ public class CritterGameGUI extends JFrame {
 
         JPanel panelTreeWeight = new JPanel();
         optionsPanel.add(panelTreeWeight);
-        panelTreeWeight.setLayout(new GridLayout(1,2));
+        panelTreeWeight.setLayout(new GridLayout(1,3));
 
         JLabel treeWeightLabel = new JLabel("Tree Weight:");
         panelTreeWeight.add(treeWeightLabel);
@@ -84,9 +92,13 @@ public class CritterGameGUI extends JFrame {
         JSlider treeSlider = new JSlider(0,1);
         panelTreeWeight.add(treeSlider);
 
+        JLabel treeWeight = new JLabel(String.valueOf(treeSlider.getValue()));
+        panelTreeWeight.add(treeWeight);
+        treeWeight.setHorizontalAlignment(JLabel.LEFT);
+
         JPanel panelWaterWeight = new JPanel();
         optionsPanel.add(panelWaterWeight);
-        panelWaterWeight.setLayout(new GridLayout(1,2));
+        panelWaterWeight.setLayout(new GridLayout(1,3));
 
         JLabel waterWeightLabel = new JLabel("Water Weight:");
         panelWaterWeight.add(waterWeightLabel);
@@ -94,9 +106,13 @@ public class CritterGameGUI extends JFrame {
         JSlider waterSlider = new JSlider(0,1);
         panelWaterWeight.add(waterSlider);
 
+        JLabel waterWeight = new JLabel(String.valueOf(waterSlider.getValue()));
+        panelWaterWeight.add(waterWeight);
+        waterWeight.setHorizontalAlignment(JLabel.LEFT);
+
         JPanel panelBoulderWeight = new JPanel();
         optionsPanel.add(panelBoulderWeight);
-        panelBoulderWeight.setLayout(new GridLayout(1,2));
+        panelBoulderWeight.setLayout(new GridLayout(1,3));
 
         JLabel boulderWeightLabel = new JLabel("Boulder Weight:");
         panelBoulderWeight.add(boulderWeightLabel);
@@ -104,9 +120,13 @@ public class CritterGameGUI extends JFrame {
         JSlider boulderSlider = new JSlider(0,1);
         panelBoulderWeight.add(boulderSlider);
 
+        JLabel boulderWeight = new JLabel(String.valueOf(boulderSlider.getValue()));
+        panelBoulderWeight.add(boulderWeight);
+        boulderWeight.setHorizontalAlignment(JLabel.LEFT);
+
         JPanel panelDirtWeight = new JPanel();
         optionsPanel.add(panelTreeWeight);
-        panelDirtWeight.setLayout(new GridLayout(1,2));
+        panelDirtWeight.setLayout(new GridLayout(1,3));
 
         JLabel dirtWeightLabel = new JLabel("Dirt Weight:");
         panelDirtWeight.add(dirtWeightLabel);
@@ -114,15 +134,23 @@ public class CritterGameGUI extends JFrame {
         JSlider dirtSlider = new JSlider(0,1);
         panelDirtWeight.add(dirtSlider);
 
+        JLabel dirtWeight = new JLabel(String.valueOf(dirtSlider.getValue()));
+        panelDirtWeight.add(dirtWeight);
+        dirtWeight.setHorizontalAlignment(JLabel.LEFT);
+
         JPanel panelMapSize = new JPanel();
         optionsPanel.add(panelMapSize);
-        panelMapSize.setLayout(new GridLayout(1,2));
+        panelMapSize.setLayout(new GridLayout(1,3));
 
         JLabel mapSizeLabel = new JLabel("Map Size:");
         panelMapSize.add(mapSizeLabel);
 
         JSlider mapSizeSlider = new JSlider(10,100);
         panelMapSize.add(mapSizeSlider);
+
+        JLabel mapSize = new JLabel(String.valueOf(mapSizeSlider.getValue()) + "x" + String.valueOf(mapSizeSlider.getValue()));
+        panelMapSize.add(mapSize);
+        mapSize.setHorizontalAlignment(JLabel.LEFT);
 
         JButton generateMapButton = new JButton("Generate Map");
         JPanel generateMapPanel = new JPanel();
@@ -139,7 +167,9 @@ public class CritterGameGUI extends JFrame {
         panelLoadPreset.add(presetButtonPanel);
 
         JComboBox presetComboBox = new JComboBox();
-        panelLoadPreset.add(presetComboBox);
+        JPanel comboBoxPanel = new JPanel();
+        comboBoxPanel.add(presetComboBox);
+        panelLoadPreset.add(comboBoxPanel);
 
         JButton savePresetButton = new JButton("Save Preset");
         JPanel savePresetPanel = new JPanel();
