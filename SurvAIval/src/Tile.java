@@ -9,6 +9,7 @@ public class Tile {
     private int x;
     private int y;
     private String type;
+    private boolean food;
 
     // Indicates whether a tile can be walked through or not
     private boolean passable;
@@ -37,6 +38,7 @@ public class Tile {
 
     public int getX() { return x; }
     public int getY() { return y; }
+    public boolean containsFood() { return food; }
 
     public boolean isPassable() {
     	return passable;

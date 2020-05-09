@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 // This class 
@@ -78,6 +80,17 @@ public class TileMap {
     public boolean isPassable(int x, int y) {
         Tile tile = search(x,y);
         return tile != null && tile.isPassable();
+    }
+
+    //  Creates a list of all tiles with food
+    public List createFoodList() {
+        List<Tile> food = new ArrayList();
+        for (Tile tile : tiles) {
+            if (tile.containsFood()) {
+                food.add(tile);
+            }
+        }
+        return food;
     }
 
     @Override

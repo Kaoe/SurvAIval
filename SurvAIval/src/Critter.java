@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -5,20 +8,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Critter {
 
+    private String name;
+
     private TileMap tileMap;
     private int direction;
     private int moveSpeed;
     private int x;
     private int y;
     private List currentPath;// This is the path that the critter is currently taking. It is a list of directions
-
     public Critter(TileMap tileMap, int direction, int moveSpeed, int x, int y) {
+        this.name = generateRandomName();
         this.tileMap = tileMap;
         this.direction = direction;
         this.moveSpeed = moveSpeed;
         this.x = x;
         this.y = y;
     }
+
+    public String getName() { return name; }
 
     public int getDirection() {
         return direction;
@@ -95,6 +102,19 @@ public class Critter {
         }
     }
 
+    public void findClosestFood() {
+        List<Tile> food = tileMap.createFoodList();
+        List closestFoodPath = null;
+        List possibleClosest;
+        for (Tile tile : food) {
+            possibleClosest = Node.pathfind(this.tileMap, this.x, this.y, tile.getX(), tile.getY());
+            if (closestFoodPath == null || possibleClosest.size() < closestFoodPath.size()) {
+                closestFoodPath = possibleClosest;
+            }
+        }
+        currentPath = closestFoodPath;
+    }
+
     public void doRandom() {
         int min = 1;
         int max = 3;
@@ -138,9 +158,44 @@ public class Critter {
         }
     }
 
+    public String generateRandomName() {
+         RandomAccessFile file = null;
+        try {
+            file = new RandomAccessFile("SurvAIval/src/possibleNames.txt", "r");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return getRandomString(file);
+    }
+
+    public String generateRandomThought() {
+        RandomAccessFile file = null;
+        try {
+            file = new RandomAccessFile("SurvAIval/src/possibleThoughts.txt", "r");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return getRandomString(file);
+    }
+
+    private String getRandomString(RandomAccessFile file) {
+        String string = "";
+        try {
+            long rand = (long) (Math.random() * file.length());
+            file.seek(rand);
+            file.readLine();
+            string = file.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return string;
+    }
+
+
     @Override
     public String toString() {
         return "\nCritter Info:" +
+                "\nName: " + name +
                 "\nCoordinates: (" + x +", " + y + ")" +
                 "\nDirection:" + direction +
                 "\nMoveSpeed:" + moveSpeed +
