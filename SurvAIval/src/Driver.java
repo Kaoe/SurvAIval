@@ -19,7 +19,7 @@ public class Driver {
         System.out.println(critter.toString());
 
 
-
+        System.out.println("\nRandom thought of " + critter.getName() + ": " + critter.generateRandomThought());
 
 
 
