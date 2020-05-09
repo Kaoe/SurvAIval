@@ -1,13 +1,7 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.JButton;
-import javax.swing.JSlider;
 
 public class CritterGameGUI extends JFrame {
 
@@ -20,7 +14,7 @@ public class CritterGameGUI extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    CritterGameGUI frame = new CritterGameGUI(20,20);
+                    CritterGameGUI frame = new CritterGameGUI(10,10);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -34,7 +28,7 @@ public class CritterGameGUI extends JFrame {
      */
     public CritterGameGUI(int width, int height) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 750, 500);
+        setBounds(100, 100, 1005, 625);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
@@ -42,12 +36,13 @@ public class CritterGameGUI extends JFrame {
 
         JPanel mainPanel = new JPanel();
         contentPane.add(mainPanel, BorderLayout.CENTER);
-        mainPanel.setLayout(null);
+        mainPanel.setLayout(new GridBagLayout());
 
         JPanel optionsPanel = new JPanel();
         optionsPanel.setBounds(0, 0, 200, 600);
         mainPanel.add(optionsPanel);
-        optionsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+        optionsPanel.setLayout(new GridLayout(10,1));
 
         JButton btnNewButton = new JButton("New button");
         optionsPanel.add(btnNewButton);
@@ -73,8 +68,18 @@ public class CritterGameGUI extends JFrame {
         JPanel mapPanel = new JPanel();
         mapPanel.setBounds(205, 0, 800, 600);
         mainPanel.add(mapPanel);
-        mapPanel.setLayout(new GridLayout(width, 0, height, 0));
+        mapPanel.setLayout(new GridLayout(width, height, 0, 0));
 
+
+        ImageIcon dirt = new ImageIcon("SurvAIval/Assets/dirt.png");
+        ImageIcon boulder = new ImageIcon("SurvAIval/Assets/boulder.png");
+        ImageIcon tree = new ImageIcon("SurvAIval/Assets/tree.png");
+        ImageIcon water = new ImageIcon("SurvAIval/Assets/water.png");
+        ImageIcon critter = new ImageIcon("SurvAIval/Assets/critter.png");
+        ImageIcon food = new ImageIcon("SurvAIval/Assets/food.png");
+
+
+        TileMap tileMap = new TileMap(width,height,5,1,1,1);
 
         int size = width * height;
         int index = -1;
@@ -85,7 +90,15 @@ public class CritterGameGUI extends JFrame {
                 index %= size;
                 index--;
             }
-            mapPanel.add(new JButton("yar"));
+            if (tileMap.getTile(i).getType() == "dirt") {
+                mapPanel.add(new JLabel(dirt));
+            }else if (tileMap.getTile(i).getType() == "boulder") {
+                mapPanel.add(new JLabel(boulder));
+            }else if (tileMap.getTile(i).getType() == "tree") {
+                mapPanel.add(new JLabel(tree));
+            }else if (tileMap.getTile(i).getType() == "water") {
+                mapPanel.add(new JLabel(water));
+            }
         }
 
 
