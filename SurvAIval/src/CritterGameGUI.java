@@ -38,13 +38,19 @@ public class CritterGameGUI extends JFrame {
 
         JPanel mainPanel = new JPanel();
         contentPane.add(mainPanel, BorderLayout.CENTER);
-        mainPanel.setLayout(new GridBagLayout());
-
+        GridBagConstraints optionsConstraints = new GridBagConstraints();
+        optionsConstraints.ipadx = 200;
+        optionsConstraints.weightx = 1;
+        GridBagLayout mainLayout = new GridBagLayout();
         JPanel optionsPanel = new JPanel();
+        mainLayout.setConstraints(optionsPanel,optionsConstraints);
+        mainPanel.setLayout(mainLayout);
+
+
         optionsPanel.setBounds(0, 0, 200, 600);
         mainPanel.add(optionsPanel);
-
         optionsPanel.setLayout(new GridLayout(13,1));
+//        optionsPanel.setMinimumSize(new Dimension(200,600));
 
         JButton runsSimulationButton = new JButton("Run Simulation");
         JPanel runsSimulationPanel = new JPanel();
@@ -190,10 +196,18 @@ public class CritterGameGUI extends JFrame {
         JPanel mapPanel = new JPanel();
         mapPanel.setBounds(205, 0, 800, 600);
         mainPanel.add(mapPanel);
+        GridBagConstraints mapConstraints = new GridBagConstraints();
+        mainLayout.setConstraints(mapPanel,mapConstraints);
+        mapConstraints.fill = GridBagConstraints.BOTH;
+
+
+
 
         mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
         TileMap clear = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),1,0,0,0);
         mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
+
+
 
         ImageIcon dirt = new ImageIcon("SurvAIval/Assets/dirt.png");
         ImageIcon boulder = new ImageIcon("SurvAIval/Assets/boulder.png");
@@ -229,18 +243,28 @@ public class CritterGameGUI extends JFrame {
                     index %= size;
                     index--;
                 }
+
+
+                mapPanel.add(new JPanel());
+                ((JPanel)(mapPanel.getComponent(i))).add(new JLabel());
+
+
                 switch (tileMap.getTile(i).getType()) {
                     case "dirt":
-                        mapPanel.add(new JLabel(dirt));
+//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
+                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/dirt.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
                         break;
                     case "boulder":
-                        mapPanel.add(new JLabel(boulder));
+//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
+                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/boulder.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
                         break;
                     case "tree":
-                        mapPanel.add(new JLabel(tree));
+//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
+                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/tree.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
                         break;
                     case "water":
-                        mapPanel.add(new JLabel(water));
+//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
+                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/water.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
                         break;
                 }
             }
