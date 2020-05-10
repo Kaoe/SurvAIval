@@ -39,14 +39,6 @@ public class Tile {
     public int getX() { return x; }
     public int getY() { return y; }
 
-    public boolean containsFood() {
-        if(type.equals("food")) {
-            return true;
-        }else {
-        return false;
-        }
-    }
-
     public String getType() { return type; }
 
     public void setType(String type) {
