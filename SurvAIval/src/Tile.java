@@ -9,7 +9,6 @@ public class Tile {
     private int x;
     private int y;
     private String type;
-    private boolean food;
 
     // Indicates whether a tile can be walked through or not
     private boolean passable;
@@ -21,6 +20,7 @@ public class Tile {
         switch (type) {
             case "dirt":
             case "tree":
+            case "critter":
                 this.passable = true;
                 break;
             case "boulder":
@@ -39,13 +39,22 @@ public class Tile {
     public int getX() { return x; }
     public int getY() { return y; }
 
-    public boolean containsFood() { return food; }
+    public boolean containsFood() {
+        if(type.equals("food")) {
+            return true;
+        }else {
+        return false;
+        }
+    }
 
     public String getType() { return type; }
 
     public void addFood() {
         this.type = "food";
-        this.food = true;
+    }
+
+    public void addCritter() {
+        this.type = "critter";
     }
 
 
