@@ -88,7 +88,7 @@ public class TileMap {
     public List<Tile> createFoodList() {
         List<Tile> food = new ArrayList();
         for (Tile tile : tiles) {
-            if (tile.containsFood()) {
+            if (tile.getType().equals("food")) {
                 food.add(tile);
             }
         }

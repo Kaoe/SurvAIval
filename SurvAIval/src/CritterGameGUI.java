@@ -29,6 +29,9 @@ public class CritterGameGUI extends JFrame {
     /**
      * Create the frame.
      */
+
+    private TileMap tileMap;
+
     public CritterGameGUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1005, 625);
@@ -223,16 +226,18 @@ public class CritterGameGUI extends JFrame {
             mapPanel.add(new JLabel(white));
         }
 
-//        Thread thread = new Thread(() -> {
-//            while(true) {
-//                // call simulator
-//            }
-//        });
+        Thread thread = new Thread(() -> {
+            while(true) {
+                // call simulator
+
+
+            }
+        });
 
 
         //ACTION LISTENERS
         runsSimulationButton.addActionListener(e -> {
-
+                thread.start();
 
         });
 
@@ -240,7 +245,7 @@ public class CritterGameGUI extends JFrame {
             mapPanel.removeAll();
             mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
 
-            TileMap tileMap = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),dirtSlider.getValue(),
+            tileMap = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),dirtSlider.getValue(),
                                             boulderSlider.getValue(),waterSlider.getValue(),treeSlider.getValue());
             tileMap.populateMapWithFood(foodSlider.getValue());
             tileMap.populateMapWithCritters(critterSlider.getValue());

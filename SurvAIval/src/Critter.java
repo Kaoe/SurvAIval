@@ -57,6 +57,7 @@ public class Critter {
     }
 
     public void moveForward() {
+        this.tileMap.search(this.x,this.y).setType("dirt");
         if(direction == 0) {
             this.y += 1;
         }else if(direction == 1) {
@@ -66,6 +67,7 @@ public class Critter {
         }else if(direction == 3) {
             this.x -= 1;
         }
+        this.tileMap.search(this.x,this.y).setType("critter");
     }
 
     public void pathfind(int xDest, int yDest) {
@@ -76,6 +78,8 @@ public class Critter {
     public void moveAlongPath() {
         if (currentPath.isEmpty()) {
 //          doNext();                      This means that the action is complete, time to move onto the next task
+
+            findClosestFood();  //  Current placeholder to keep the critter doing something
         }else if (this.direction == ((int) currentPath.get(0) + 1) % 4) {
             turnLeft();
         }else if (this.direction == ((int) currentPath.get(0) + 3) % 4) {
