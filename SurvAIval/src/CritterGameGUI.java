@@ -68,7 +68,7 @@ public class CritterGameGUI extends JFrame {
         JLabel critterCountLabel = new JLabel("Critter Count:");
         panelCritterCount.add(critterCountLabel);
 
-        JSlider critterSlider = new JSlider(0,20,5);
+        JSlider critterSlider = new JSlider(0,20,3);
         panelCritterCount.add(critterSlider);
 
         JLabel critterCount = new JLabel(String.valueOf(critterSlider.getValue()));
@@ -101,7 +101,7 @@ public class CritterGameGUI extends JFrame {
         JLabel treeWeightLabel = new JLabel("Tree Weight:");
         panelTreeWeight.add(treeWeightLabel);
 
-        JSlider treeSlider = new JSlider(0,100,25);
+        JSlider treeSlider = new JSlider(0,100,2);
         panelTreeWeight.add(treeSlider);
 
         JLabel treeWeight = new JLabel(String.valueOf((double)treeSlider.getValue()/100));
@@ -115,7 +115,7 @@ public class CritterGameGUI extends JFrame {
         JLabel waterWeightLabel = new JLabel("Water Weight:");
         panelWaterWeight.add(waterWeightLabel);
 
-        JSlider waterSlider = new JSlider(0,100,25);
+        JSlider waterSlider = new JSlider(0,100,1);
         panelWaterWeight.add(waterSlider);
 
         JLabel waterWeight = new JLabel(String.valueOf((double) waterSlider.getValue() / 100));
@@ -129,7 +129,7 @@ public class CritterGameGUI extends JFrame {
         JLabel boulderWeightLabel = new JLabel("Boulder Weight:");
         panelBoulderWeight.add(boulderWeightLabel);
 
-        JSlider boulderSlider = new JSlider(0,100,25);
+        JSlider boulderSlider = new JSlider(0,100,4);
         panelBoulderWeight.add(boulderSlider);
 
         JLabel boulderWeight = new JLabel(String.valueOf((double) boulderSlider.getValue() / 100));
@@ -143,7 +143,7 @@ public class CritterGameGUI extends JFrame {
         JLabel dirtWeightLabel = new JLabel("Dirt Weight:");
         panelDirtWeight.add(dirtWeightLabel);
 
-        JSlider dirtSlider = new JSlider(0,100, 75);
+        JSlider dirtSlider = new JSlider(0,100, 50);
         panelDirtWeight.add(dirtSlider);
 
         JLabel dirtWeight = new JLabel(String.valueOf((double) dirtSlider.getValue() / 100));
@@ -211,9 +211,6 @@ public class CritterGameGUI extends JFrame {
 
         mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
         TileMap clear = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),1,0,0,0);
-        mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
-
-
 
         ImageIcon dirt = new ImageIcon("SurvAIval/Assets/dirt.png");
         ImageIcon boulder = new ImageIcon("SurvAIval/Assets/boulder.png");
@@ -223,7 +220,9 @@ public class CritterGameGUI extends JFrame {
         ImageIcon food = new ImageIcon("SurvAIval/Assets/food.png");
 
         for(int i = 0; i < clear.getSize(); i++) {
-            mapPanel.add(new JLabel(white));
+            JLabel jLabel = new JLabel();
+            jLabel.setIcon(dirt);
+            mapPanel.add(jLabel);
         }
 
         Thread thread = new Thread(() -> {
@@ -258,28 +257,20 @@ public class CritterGameGUI extends JFrame {
                     index %= size;
                     index--;
                 }
-
-
-                mapPanel.add(new JPanel());
-                ((JPanel)(mapPanel.getComponent(i))).add(new JLabel());
-
-
+                
+                String iconPath = null;
                 switch (tileMap.getTile(i).getType()) {
                     case "dirt":
-//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
-                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/dirt.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
+                        iconPath = "SurvAIval/Assets/dirt.png";
                         break;
                     case "boulder":
-//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
-                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/boulder.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
+                        iconPath = "SurvAIval/Assets/boulder.png";
                         break;
                     case "tree":
-//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
-                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/tree.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
+                        iconPath = "SurvAIval/Assets/tree.png";
                         break;
                     case "water":
-//                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
-                        ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/water.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
+                        iconPath = "SurvAIval/Assets/water.png";
                         break;
                     case "food":
                         iconPath = "SurvAIval/Assets/food.png";
@@ -287,6 +278,9 @@ public class CritterGameGUI extends JFrame {
                     case "critter":
                         iconPath = "SurvAIval/Assets/critter.png";
                         break;
+                }
+                if (iconPath != null) {
+                    mapPanel.add(updateImageScale(iconPath,mapSizeSlider));
                 }
             }
 
@@ -334,4 +328,7 @@ public class CritterGameGUI extends JFrame {
     public static void updateSlider(JSlider jSlider, JLabel jLabel) {
         jLabel.setText(String.valueOf(jSlider.getValue()));
     }
+
+
+
 }
