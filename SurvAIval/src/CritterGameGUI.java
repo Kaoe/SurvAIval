@@ -216,7 +216,6 @@ public class CritterGameGUI extends JFrame {
         ImageIcon water = new ImageIcon("SurvAIval/Assets/water.png");
         ImageIcon critter = new ImageIcon("SurvAIval/Assets/critter.png");
         ImageIcon food = new ImageIcon("SurvAIval/Assets/food.png");
-        ImageIcon white = new ImageIcon("SurvAIval/Assets/white.png");
 
         for(int i = 0; i < clear.getSize(); i++) {
             mapPanel.add(new JLabel(white));
