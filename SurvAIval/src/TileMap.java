@@ -85,7 +85,7 @@ public class TileMap {
     }
 
     //  Creates a list of all tiles with food
-    public List createFoodList() {
+    public List<Tile> createFoodList() {
         List<Tile> food = new ArrayList();
         for (Tile tile : tiles) {
             if (tile.containsFood()) {
@@ -93,6 +93,30 @@ public class TileMap {
             }
         }
         return food;
+    }
+
+    // Populates map with food. If there are no more available tiles it stops.
+    public List populateMapWithFood(int foodCount) {
+        List<Tile> dirt = new ArrayList();
+        List<Integer> foodLocation = new ArrayList();
+        for (Tile tile : tiles) {
+            if (tile.getType().equals("dirt")) {
+                dirt.add(tile);
+            }
+        }
+        int rand;
+
+        for (int i = 0; i < foodCount; i++) {
+            try {
+                rand = ThreadLocalRandom.current().nextInt(0, dirt.size());
+                dirt.get(rand).addFood();
+                foodLocation.add(rand);
+                dirt.remove(rand);
+                }catch (Exception e) {
+                    return foodLocation;
+            }
+        }
+        return foodLocation;
     }
 
     @Override
