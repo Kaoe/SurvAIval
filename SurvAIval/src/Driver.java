@@ -27,9 +27,8 @@ public class Driver {
         int mapHeight = 10;
         int size = tileMap.getSize();
 
-        List<Integer> foodList = tileMap.populateMapWithFood(foodCount);
+        tileMap.populateMapWithFood(foodCount);
 
-        System.out.println(foodList);
 
 //        int foodIndex;
 //

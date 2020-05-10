@@ -96,9 +96,8 @@ public class TileMap {
     }
 
     // Populates map with food. If there are no more available tiles it stops.
-    public List populateMapWithFood(int foodCount) {
+    public void populateMapWithFood(int foodCount) {
         List<Tile> dirt = new ArrayList();
-        List<Integer> foodLocation = new ArrayList();
         for (Tile tile : tiles) {
             if (tile.getType().equals("dirt")) {
                 dirt.add(tile);
@@ -110,13 +109,11 @@ public class TileMap {
             try {
                 rand = ThreadLocalRandom.current().nextInt(0, dirt.size());
                 dirt.get(rand).addFood();
-                foodLocation.add(rand);
                 dirt.remove(rand);
                 }catch (Exception e) {
-                    return foodLocation;
+
             }
         }
-        return foodLocation;
     }
 
     @Override

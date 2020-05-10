@@ -140,7 +140,7 @@ public class CritterGameGUI extends JFrame {
         JLabel dirtWeightLabel = new JLabel("Dirt Weight:");
         panelDirtWeight.add(dirtWeightLabel);
 
-        JSlider dirtSlider = new JSlider(0,100, 50);
+        JSlider dirtSlider = new JSlider(0,100, 75);
         panelDirtWeight.add(dirtSlider);
 
         JLabel dirtWeight = new JLabel(String.valueOf((double) dirtSlider.getValue() / 100));
@@ -234,6 +234,7 @@ public class CritterGameGUI extends JFrame {
 
             TileMap tileMap = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),dirtSlider.getValue(),
                                             boulderSlider.getValue(),waterSlider.getValue(),treeSlider.getValue());
+            tileMap.populateMapWithFood(foodSlider.getValue());
             int size = mapSizeSlider.getValue() * mapSizeSlider.getValue();
             int index = -1;
 
@@ -266,23 +267,12 @@ public class CritterGameGUI extends JFrame {
 //                        ((JPanel)(mapPanel.getComponent(i))).setBorder(null);
                         ((JLabel)((JPanel)mapPanel.getComponent(i)).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/water.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
                         break;
+                    case "food":
+                        iconPath = "SurvAIval/Assets/food.png";
+                        break;
                 }
             }
-            List<Integer> foodList = tileMap.populateMapWithFood(foodSlider.getValue());
-            int foodIndex;
 
-            while(!foodList.isEmpty()) {
-                foodIndex = foodList.get(0);
-                foodIndex += mapSizeSlider.getValue();
-                if(foodIndex > size) {
-                    foodIndex %= size;
-                    foodIndex--;
-                }
-                foodList.set(0,foodIndex);
-
-                ((JLabel)((JPanel)mapPanel.getComponent((foodList.get(0)))).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/food.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
-                foodList.remove(0);
-            }
 
 
             mapPanel.updateUI();
@@ -316,6 +306,22 @@ public class CritterGameGUI extends JFrame {
 
 
 
+    }
+
+    public JPanel updateImageScale(String iconPath, JSlider mapSizeSlider) {
+        JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        JLabel jLabel = new JLabel();
+        jPanel.add(jLabel);
+
+        ImageIcon imageIcon = new ImageIcon(iconPath);
+
+        int width = getHeight() / mapSizeSlider.getValue();
+        int height = getHeight() / mapSizeSlider.getValue();
+        ImageIcon scaledIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+
+        jLabel.setIcon(scaledIcon);
+
+        return jPanel;
     }
 
     public static void updateSliderDouble(JSlider jSlider, JLabel jLabel) {
