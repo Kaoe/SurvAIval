@@ -8,22 +8,20 @@ Revised Features:
   - Introduce predator/prey AI
 
   TODO:
-  - Driver file with main() method
   - Basic Pathfinding
   - Camera controls(zoom, movement)
-  - Procedurally generate tilemap
   - Basic survival AI
-  - Ability to restart simulation/create new sim
   - Predators?
-  - Integrate graphical assets into simulation
   - Ability to click on critter and display info
       * Current location on tilemap
       * Current speed & direction
       * What is it currently doing?
   
   DONE:
-  - N/A
-
+  - Driver file with main() method
+  - Procedurally generate tilemap
+  - Ability to restart simulation/create new sim
+  - Integrate graphical assets into simulation
 
 UPDATED 5/1/2020
 
