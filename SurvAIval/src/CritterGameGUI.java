@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -268,6 +269,23 @@ public class CritterGameGUI extends JFrame {
                         break;
                 }
             }
+            List<Integer> foodList = tileMap.populateMapWithFood(foodSlider.getValue());
+            int foodIndex;
+
+            while(!foodList.isEmpty()) {
+                foodIndex = foodList.get(0);
+                foodIndex += mapSizeSlider.getValue();
+                if(foodIndex > size) {
+                    foodIndex %= size;
+                    foodIndex--;
+                }
+                foodList.set(0,foodIndex);
+
+                ((JLabel)((JPanel)mapPanel.getComponent((foodList.get(0)))).getComponent(0)).setIcon(new ImageIcon(new ImageIcon("SurvAIval/Assets/food.png").getImage().getScaledInstance(getHeight()/mapSizeSlider.getValue(),getHeight()/mapSizeSlider.getValue(), Image.SCALE_SMOOTH)));
+                foodList.remove(0);
+            }
+
+
             mapPanel.updateUI();
         });
 

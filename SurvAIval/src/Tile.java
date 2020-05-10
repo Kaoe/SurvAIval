@@ -38,8 +38,15 @@ public class Tile {
 
     public int getX() { return x; }
     public int getY() { return y; }
+
     public boolean containsFood() { return food; }
+
     public String getType() { return type; }
+
+    public void addFood() {
+        this.type = "food";
+        this.food = true;
+    }
 
 
     public boolean isPassable() {
