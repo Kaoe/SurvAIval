@@ -166,33 +166,35 @@ public class CritterGameGUI extends JFrame {
         generateMapPanel.add(generateMapButton);
         optionsPanel.add(generateMapPanel);
 
-        JPanel panelLoadPreset = new JPanel();
-        optionsPanel.add(panelLoadPreset);
-        panelLoadPreset.setLayout(new GridLayout(1,2));
+        //  UI for preset Map Configurations, they don't currently do anything right now.
 
-        JButton loadPresetButton = new JButton("Load Preset");
-        JPanel presetButtonPanel = new JPanel();
-        presetButtonPanel.add(loadPresetButton);
-        panelLoadPreset.add(presetButtonPanel);
-
-        JComboBox presetComboBox = new JComboBox();
-        JPanel comboBoxPanel = new JPanel();
-        comboBoxPanel.add(presetComboBox);
-        panelLoadPreset.add(comboBoxPanel);
-
-        JButton savePresetButton = new JButton("Save Preset");
-        JPanel savePresetPanel = new JPanel();
-        savePresetPanel.add(savePresetButton);
-        optionsPanel.add(savePresetPanel);
-
-        JPanel currentPresetPanel = new JPanel();
-        optionsPanel.add(currentPresetPanel);
-
-        JLabel currentPresetLabel = new JLabel("Current Preset:");
-        currentPresetPanel.add(currentPresetLabel);
-
-        JTextField currentPresetName = new JTextField("placeHolder");
-        currentPresetPanel.add(currentPresetName);
+//        JPanel panelLoadPreset = new JPanel();
+//        optionsPanel.add(panelLoadPreset);
+//        panelLoadPreset.setLayout(new GridLayout(1,2));
+//
+//        JButton loadPresetButton = new JButton("Load Preset");
+//        JPanel presetButtonPanel = new JPanel();
+//        presetButtonPanel.add(loadPresetButton);
+//        panelLoadPreset.add(presetButtonPanel);
+//
+//        JComboBox presetComboBox = new JComboBox();
+//        JPanel comboBoxPanel = new JPanel();
+//        comboBoxPanel.add(presetComboBox);
+//        panelLoadPreset.add(comboBoxPanel);
+//
+//        JButton savePresetButton = new JButton("Save Preset");
+//        JPanel savePresetPanel = new JPanel();
+//        savePresetPanel.add(savePresetButton);
+//        optionsPanel.add(savePresetPanel);
+//
+//        JPanel currentPresetPanel = new JPanel();
+//        optionsPanel.add(currentPresetPanel);
+//
+//        JLabel currentPresetLabel = new JLabel("Current Preset:");
+//        currentPresetPanel.add(currentPresetLabel);
+//
+//        JTextField currentPresetName = new JTextField("placeHolder");
+//        currentPresetPanel.add(currentPresetName);
 
         JPanel mapPanel = new JPanel();
         mapPanel.setBounds(205, 0, 800, 600);
@@ -221,13 +223,19 @@ public class CritterGameGUI extends JFrame {
             mapPanel.add(new JLabel(white));
         }
 
+//        Thread thread = new Thread(() -> {
+//            while(true) {
+//                // call simulator
+//            }
+//        });
+
 
         //ACTION LISTENERS
         runsSimulationButton.addActionListener(e -> {
-            //  TODO: add what happens when a simulation is ran.
+
+
         });
 
-        //ACTION LISTENERS
         generateMapButton.addActionListener(e -> {
             mapPanel.removeAll();
             mapPanel.setLayout(new GridLayout(mapSizeSlider.getValue(), mapSizeSlider.getValue(), 0, 0));
@@ -292,20 +300,6 @@ public class CritterGameGUI extends JFrame {
 
         mapSizeSlider.addChangeListener(e -> mapSize.setText(mapSizeSlider.getValue() + "x" + mapSizeSlider.getValue()));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public JPanel updateImageScale(String iconPath, JSlider mapSizeSlider) {
@@ -331,6 +325,4 @@ public class CritterGameGUI extends JFrame {
     public static void updateSlider(JSlider jSlider, JLabel jLabel) {
         jLabel.setText(String.valueOf(jSlider.getValue()));
     }
-
-
 }

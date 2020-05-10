@@ -116,6 +116,26 @@ public class TileMap {
         }
     }
 
+    public void populateMapWithCritters(int critterCount) {
+        List<Tile> dirt = new ArrayList();
+        for (Tile tile : tiles) {
+            if (tile.getType().equals("critter")) {
+                dirt.add(tile);
+            }
+        }
+        int rand;
+
+        for (int i = 0; i < critterCount; i++) {
+            try {
+                rand = ThreadLocalRandom.current().nextInt(0, dirt.size());
+                dirt.get(rand).addCritter();
+                dirt.remove(rand);
+            }catch (Exception e) {
+
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "\nMap Info:" +
