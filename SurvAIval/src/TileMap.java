@@ -97,6 +97,14 @@ public class TileMap {
 
     // Populates map with food. If there are no more available tiles it stops.
     public void populateMapWithFood(int foodCount) {
+        populateMap("food",foodCount);
+    }
+
+    public void populateMapWithCritters(int critterCount) {
+        populateMap("critter",critterCount);
+    }
+
+    public void populateMap(String type, int count) {
         List<Tile> dirt = new ArrayList();
         for (Tile tile : tiles) {
             if (tile.getType().equals("dirt")) {
@@ -105,30 +113,10 @@ public class TileMap {
         }
         int rand;
 
-        for (int i = 0; i < foodCount; i++) {
+        for (int i = 0; i < count; i++) {
             try {
                 rand = ThreadLocalRandom.current().nextInt(0, dirt.size());
-                dirt.get(rand).addFood();
-                dirt.remove(rand);
-                }catch (Exception e) {
-
-            }
-        }
-    }
-
-    public void populateMapWithCritters(int critterCount) {
-        List<Tile> dirt = new ArrayList();
-        for (Tile tile : tiles) {
-            if (tile.getType().equals("critter")) {
-                dirt.add(tile);
-            }
-        }
-        int rand;
-
-        for (int i = 0; i < critterCount; i++) {
-            try {
-                rand = ThreadLocalRandom.current().nextInt(0, dirt.size());
-                dirt.get(rand).addCritter();
+                dirt.get(rand).setType(type);
                 dirt.remove(rand);
             }catch (Exception e) {
 

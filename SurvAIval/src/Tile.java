@@ -49,12 +49,8 @@ public class Tile {
 
     public String getType() { return type; }
 
-    public void addFood() {
-        this.type = "food";
-    }
-
-    public void addCritter() {
-        this.type = "critter";
+    public void setType(String type) {
+        this.type = type;
     }
 
 
