@@ -243,6 +243,7 @@ public class CritterGameGUI extends JFrame {
             TileMap tileMap = new TileMap(mapSizeSlider.getValue(),mapSizeSlider.getValue(),dirtSlider.getValue(),
                                             boulderSlider.getValue(),waterSlider.getValue(),treeSlider.getValue());
             tileMap.populateMapWithFood(foodSlider.getValue());
+            tileMap.populateMapWithCritters(critterSlider.getValue());
             int size = mapSizeSlider.getValue() * mapSizeSlider.getValue();
             int index = -1;
 
@@ -277,6 +278,9 @@ public class CritterGameGUI extends JFrame {
                         break;
                     case "food":
                         iconPath = "SurvAIval/Assets/food.png";
+                        break;
+                    case "critter":
+                        iconPath = "SurvAIval/Assets/critter.png";
                         break;
                 }
             }
